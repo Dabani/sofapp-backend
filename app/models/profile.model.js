@@ -37,8 +37,20 @@ module.exports = (sequelize, Sequelize) => {
     },
     biography: {
       type: Sequelize.TEXT("long")
+    },
+    status: {
+      type: Sequelize.ENUM,
+      values: ["public", "private", "relative"]
     }
   });
 
   return Profile;
 };
+
+/*
+Displaying enum values
+
+console.log(Profile.rawAttributes.status.values);
+// logs ['public', 'private', 'relative'] in console
+
+*/
