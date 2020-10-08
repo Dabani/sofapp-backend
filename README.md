@@ -57,6 +57,7 @@ The current scope includes the management of leagues, fixtures and tables.
 ### Admin
 
 Create federations
+Manage users
 Full access
 
 ### Staff
