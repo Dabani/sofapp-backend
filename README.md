@@ -56,50 +56,50 @@ The current scope includes the management of leagues, fixtures and tables.
 
 ### Admin
 
-Create federations
-Manage users
-Full access
+- Create federations
+- Manage users
+- Full access
 
 ### Staff
 
-Manage federations
-Manage leagues
-Manage seasons
-Create fixtures
-Manage reports
+- Manage federations
+- Manage leagues
+- Manage seasons
+- Create fixtures
+- Manage reports
 
 ### Referee
 
-Report fixtures
+- Report fixtures
 
 ### Executive
 
-Manage teams (Registration, fees payement…)
-Request for team license
-Attend federation meetings
-Submit complain
+- Manage teams (Registration, fees payement…)
+- Request for team license
+- Attend federation meetings
+- Submit complain
 
 ### Manager
 
-Manage lineups
-Contribute to fixture report 
-Manage players 
-Request for player license
+- Manage lineups
+- Contribute to fixture report 
+- Manage players 
+- Request for player license
 
 ### Agent
 
-Launch transfers
-Access Executive, Manager, and Player contacts
-Make transfer report
+- Launch transfers
+- Access Executive, Manager, and Player contacts
+- Make transfer report
 
 ### Player
 
-Manage account profile
-Submit complain
+- Manage account profile
+- Submit complain
 
 ### User
 
-Access public information (tables, fixture reports, …)
+- Access public information (tables, fixture reports, …)
 
 ## Future extensions
 
