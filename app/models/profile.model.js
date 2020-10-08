@@ -38,7 +38,7 @@ module.exports = (sequelize, Sequelize) => {
     biography: {
       type: Sequelize.TEXT("long")
     },
-    status: {
+    state: {
       type: Sequelize.ENUM,
       values: ["public", "private", "relative"]
     }
