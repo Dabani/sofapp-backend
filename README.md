@@ -52,6 +52,54 @@ Provide a secure solution to manage and make available information in real time 
 
 The current scope includes the management of leagues, fixtures and tables.
 
+## Roles
+
+### Admin
+
+Create federations
+Full access
+
+### Staff
+
+Manage federations
+Manage leagues
+Manage seasons
+Create fixtures
+Manage reports
+
+### Referee
+
+Report fixtures
+
+### Executive
+
+Manage teams (Registration, fees payement…)
+Request for team license
+Attend federation meetings
+Submit complain
+
+### Manager
+
+Manage lineups
+Contribute to fixture report 
+Manage players 
+Request for player license
+
+### Agent
+
+Launch transfers
+Access Executive, Manager, and Player contacts
+Make transfer report
+
+### Player
+
+Manage account profile
+Submit complain
+
+### User
+
+Access public information (tables, fixture reports, …)
+
 ## Future extensions
 
 Executive and administration, Disciplinary, Complains, Trainings, Transfers, Partnership, Support &amp; Assistance, Assemblies, Press Releases, etc…
