@@ -2,7 +2,8 @@ module.exports = (sequelize, Sequelize) => {
   const Profile = sequelize.define("profiles", {
     id: {
       type: Sequelize.INTEGER,
-      primaryKey: true
+      primaryKey: true,
+      autoIncrement: true
     },
     userId: {
       type: Sequelize.INTEGER

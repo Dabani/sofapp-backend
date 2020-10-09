@@ -20,7 +20,7 @@ const getPagingData = (data, page, limit) => {
 // Create and Save a new Federation
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.name) {
     res.status(400).send({
       message: "Content can not be empty!"
     });
@@ -42,7 +42,7 @@ exports.create = (req, res) => {
   };
 
   // Save Federation in the database
-  Federation.create(federation)
+  db.federation.create(federation)
     .then(data => {
       res.send(data);
     })
@@ -57,12 +57,13 @@ exports.create = (req, res) => {
 
 // Retrieve all Federations from the database.
 exports.findAll = (req, res) => {
-  const { page, size, title } = req.query;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+
+  const { page, size, name } = req.query;
+  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
   const { limit, offset } = getPagination(page, size);
 
-  Federation.findAndCountAll({ where: condition, limit, offset })
+  db.federation.findAndCountAll({ where: condition, limit, offset })
     .then(data => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -73,13 +74,14 @@ exports.findAll = (req, res) => {
           err.message || "Some error occurred while retrieving federations."
       });
     });
+
 };
 
 // Find a single Federation with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Federation.findByPk(id)
+  db.federation.findByPk(id)
     .then(data => {
       res.send(data);
     })
@@ -95,7 +97,7 @@ exports.findOne = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Federation.update(req.body, {
+  db.federation.update(req.body, {
     where: { id: id }
   })
     .then(num => {
@@ -120,7 +122,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Federation.destroy({
+  db.federation.destroy({
     where: { id: id }
   })
     .then(num => {
@@ -143,7 +145,7 @@ exports.delete = (req, res) => {
 
 // Delete all Federations from the database.
 exports.deleteAll = (req, res) => {
-  Federation.destroy({
+  db.federation.destroy({
     where: {},
     truncate: false
   })
@@ -161,10 +163,11 @@ exports.deleteAll = (req, res) => {
 
 // Find all published Federations
 exports.findAllPublished = (req, res) => {
+  
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
 
-  Federation.findAndCountAll({ where: { published: true }, limit, offset })
+  db.federation.findAndCountAll({ where: { published: true }, limit, offset })
     .then(data => {
       const response = getPagingData(data, page, limit);
       res.send(response);

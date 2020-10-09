@@ -1,6 +1,6 @@
 module.exports = app => {
-  const federations = require("../controllers/federation.controller.js");
-
+  const federations = require("../controllers/federation.controller");
+  //const federations = app.db.models.federations;
   var router = require("express").Router();
 
   // Create a new Federation
