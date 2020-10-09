@@ -30,6 +30,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     logoUrl: {
       type: Sequelize.STRING
+    },
+    published: {
+      type: Sequelize.BOOLEAN
     }
   });
 
