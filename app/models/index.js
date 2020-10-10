@@ -40,10 +40,24 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
+db.federation.belongsToMany(db.user, {
+  through: "user_federations",
+  foreignKey: "federationId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.federation, {
+  through: "user_federations",
+  foreignKey: "userId",
+  otherKey: "federationId"
+});
+
 db.profile.belongsTo(db.user);
 db.user.hasOne(db.profile, {
   foreignKey: "userId"
 });
+
+
+
 
 db.ROLES = ["user", "player", "agent", "manager", "executive", "referee", "staff", "admin"];
 

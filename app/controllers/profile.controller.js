@@ -1,5 +1,4 @@
 const db = require("../models");
-// const Federation = db.federations;
 const Op = db.Sequelize.Op;
 
 const getPagination = (page, size) => {
@@ -10,14 +9,14 @@ const getPagination = (page, size) => {
 };
 
 const getPagingData = (data, page, limit) => {
-  const { count: totalItems, rows: federations } = data;
+  const { count: totalItems, rows: profiles } = data;
   const currentPage = page ? +page : 0;
   const totalPages = Math.ceil(totalItems / limit);
 
-  return { totalItems, federations, totalPages, currentPage };
+  return { totalItems, profiles, totalPages, currentPage };
 };
 
-// Create and Save a new Federation
+// Create and Save a new Profile
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.name) {
@@ -27,35 +26,39 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Federation
-  const federation = {
-    name: req.body.name,
-    slug: req.body.slug,
-    description: req.body.description,
+  // Create a Profile
+  const profile = {
+    userId:req.body.userId,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    otherName: req.body.otherName,
+    gender: req.body.gender,
+    dateOfBirth: req.body.dateOfBirth,
+    placeOfBirth: req.body.placeOfBirth,
+    nationalityAtBirth: req.body.nationalityAtBirth,
+    nationalityCurrent: req.body.nationalityCurrent,
+    biography: req.body.biography,
     telephone: req.body.telephone,
-    email: req.body.email,
     webUrl: req.body.webUrl,
-    country: req.body.country,
-    location: req.body.location,
-    logoUrl: req.body.logoUrl,
+    state: req.body.state,
     published: req.body.published ? req.body.published : false
   };
 
-  // Save Federation in the database
-  db.federation.create(federation)
+  // Save Profile in the database
+  db.profile.create(profile)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Federation."
+          err.message || "Some error occurred while creating the Profile."
       });
     });
 
 };
 
-// Retrieve all Federations from the database.
+// Retrieve all Profiles from the database.
 exports.findAll = (req, res) => {
 
   const { page, size, name } = req.query;
@@ -63,7 +66,7 @@ exports.findAll = (req, res) => {
 
   const { limit, offset } = getPagination(page, size);
 
-  db.federation.findAndCountAll({ where: condition, limit, offset })
+  db.profile.findAndCountAll({ where: condition, limit, offset })
     .then(data => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -71,103 +74,103 @@ exports.findAll = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving federations."
+          err.message || "Some error occurred while retrieving profiles."
       });
     });
 
 };
 
-// Find a single Federation with an id
+// Find a single Profile with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  db.federation.findByPk(id)
+  db.profile.findByPk(id)
     .then(data => {
       res.send(data);
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving Federation with id=" + id
+        message: "Error retrieving Profile with id=" + id
       });
     });
 
 };
 
-// Update a Federation by the id in the request
+// Update a Profile by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  db.federation.update(req.body, {
+  db.profile.update(req.body, {
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Federation was updated successfully."
+          message: "Profile was updated successfully."
         });
       } else {
         res.send({
-          message: `Cannot update Federation with id=${id}. Maybe Federation was not found or req.body is empty!`
+          message: `Cannot update Profile with id=${id}. Maybe Profile was not found or req.body is empty!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error updating Federation with id=" + id
+        message: "Error updating Profile with id=" + id
       });
     });
 };
 
-// Delete a Federation with the specified id in the request
+// Delete a Profile with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  db.federation.destroy({
+  db.profile.destroy({
     where: { id: id }
   })
     .then(num => {
       if (num == 1) {
         res.send({
-          message: "Federation was deleted successfully!"
+          message: "Profile was deleted successfully!"
         });
       } else {
         res.send({
-          message: `Cannot delete Federation with id=${id}. Maybe Federation was not found!`
+          message: `Cannot delete Profile with id=${id}. Maybe Profile was not found!`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Could not delete Federation with id=" + id
+        message: "Could not delete Profile with id=" + id
       });
     });
 };
 
-// Delete all Federations from the database.
+// Delete all Profiles from the database.
 exports.deleteAll = (req, res) => {
-  db.federation.destroy({
+  db.profile.destroy({
     where: {},
     truncate: false
   })
     .then(nums => {
-      res.send({ message: `${nums} Federations were deleted successfully!` });
+      res.send({ message: `${nums} Profiles were deleted successfully!` });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all federations."
+          err.message || "Some error occurred while removing all profiles."
       });
     });
 
 };
 
-// Find all published Federations
+// Find all published Profiles
 exports.findAllPublished = (req, res) => {
-  
+
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
 
-  db.federation.findAndCountAll({ where: { published: true }, limit, offset })
+  db.profile.findAndCountAll({ where: { published: true }, limit, offset })
     .then(data => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -175,7 +178,7 @@ exports.findAllPublished = (req, res) => {
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving federations."
+          err.message || "Some error occurred while retrieving profiles."
       });
     });
 

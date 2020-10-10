@@ -14,7 +14,7 @@ module.exports = (sequelize, Sequelize) => {
     lastName: {
       type: Sequelize.STRING
     },
-    telephone: {
+    otherName: {
       type: Sequelize.STRING
     },
     gender: {
@@ -22,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
       values: ["female", "male"]
     },
     dateOfBirth: {
-      type: Sequelize.STRING
+      type: Sequelize.DATEONLY
     },
     placeOfBirth: {
       type: Sequelize.STRING
@@ -33,15 +33,25 @@ module.exports = (sequelize, Sequelize) => {
     nationalityCurrent: {
       type: Sequelize.STRING
     },
-    imageUrl: {
-      type: Sequelize.STRING
-    },
     biography: {
       type: Sequelize.TEXT("long")
+    },
+    telephone: {
+      type: Sequelize.STRING
+    },
+    webUrl: {
+      type: Sequelize.STRING
+    },
+    imageUrl: {
+      type: Sequelize.STRING
     },
     state: {
       type: Sequelize.ENUM,
       values: ["public", "private", "relative"]
+    },
+    published: {
+      type: Sequelize.BOOLEAN,
+      default: false
     }
   });
 
@@ -51,7 +61,7 @@ module.exports = (sequelize, Sequelize) => {
 /*
 Displaying enum values
 
-console.log(Profile.rawAttributes.status.values);
+console.log(Profile.rawAttributes.state.values);
 // logs ['public', 'private', 'relative'] in console
 
 */
