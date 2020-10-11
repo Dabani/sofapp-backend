@@ -2,6 +2,7 @@ const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
 const Role = db.role;
+const Federation = db.federation;
 
 const Op = db.Sequelize.Op;
 
@@ -35,6 +36,26 @@ exports.signup = (req, res) => {
           res.send({ message: "User was registered successfully!" });
         });
       }
+      // Add user to federation
+      if (req.body.federations) {
+        Federation.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.federations
+            }
+          }
+        }).then(federations => {
+          user.setFederations(federations).then(() => {
+            res.send({ message: "User was registered to federation successfully!" });
+          });
+        });
+      } else {
+        // user federation = 1
+        user.setFederations([1]).then(() => {
+          res.send({ message: "User was added to federation successfully!" });
+        });
+      }
+
     })
     .catch(err => {
       res.status(500).send({ message: err.message });

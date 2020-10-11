@@ -9,6 +9,8 @@ var corsOptions = {
 };
 
 const db = require("./app/models");
+const UserController = require("./app/controllers/user.controller");
+const FederationController = require("./app/controllers/federation.controller");
 const Role = db.role;
 
 db.sequelize.sync({ force: true }).then(() => {
@@ -80,3 +82,11 @@ function initial() {
     name: "admin"
   });
 }
+
+// Show all Users
+const users = await UserController.findAll();
+console.log(">> users", JSON.stringify(users, null, 2));
+
+// Show all Users
+const federations = await FederationController.findAll();
+console.log(">> federations", JSON.stringify(federations, null, 2));

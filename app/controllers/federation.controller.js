@@ -1,4 +1,5 @@
 const db = require("../models");
+const { user } = require("../models");
 // const Federation = db.federations;
 const Op = db.Sequelize.Op;
 
@@ -63,7 +64,19 @@ exports.findAll = (req, res) => {
 
   const { limit, offset } = getPagination(page, size);
 
-  db.federation.findAndCountAll({ where: condition, limit, offset })
+  db.federation.findAndCountAll({ 
+    include: [
+      {
+        model: db.user,
+        as: "users",
+        attributes: ["id", "username"],
+        through: {
+          attributes: [],
+        }
+      },
+    ],
+    where: condition, limit, offset 
+  })
     .then(data => {
       const response = getPagingData(data, page, limit);
       res.send(response);
@@ -81,7 +94,18 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  db.federation.findByPk(id)
+  db.federation.findByPk(id, {
+    include: [
+      {
+        model: db.user,
+        as: "users",
+        attributes: ["id", "username"],
+        through: {
+          attributes: [],
+        }
+      },
+    ],
+  })
     .then(data => {
       res.send(data);
     })
@@ -179,4 +203,28 @@ exports.findAllPublished = (req, res) => {
       });
     });
 
+};
+
+// Add a User to a Federation
+exports.addUser = (federationId, userId) => {
+  return db.federation.findByPk(federationId)
+    .then((federation) => {
+      if (!federation) {
+        console.log("Federation not found!");
+        return null;
+      }
+      return db.user.findByPk(userId).then((user) => {
+        if (!user) {
+          console.log("User not found!");
+          return null;
+        }
+
+        federation.addUser(user);
+        console.log(`>> added User id=${user.id} to Federation id=${federation.id}`);
+        return federation;
+      });
+    })
+    .catch((err) => {
+      console.log(">> Error while adding User to Federation: ", err);
+    });
 };
